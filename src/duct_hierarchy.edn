@@ -1,0 +1,3 @@
+{:duct.database/datomic [:duct/database]
+ :duct.migrator.ragtime/datomic [:duct/migrator]
+ :duct.module/datomic [:duct/module]}
