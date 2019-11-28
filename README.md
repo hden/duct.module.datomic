@@ -1,4 +1,4 @@
-# duct.module.datomic
+# duct.module.datomic [![CircleCI](https://circleci.com/gh/hden/duct.module.datomic/tree/master.svg?style=svg)](https://circleci.com/gh/hden/duct.module.datomic/tree/master)
 
 A Duct module that adds Integrant keys for a Datomic database connection and Ragtime migrations to a configuration.
 
