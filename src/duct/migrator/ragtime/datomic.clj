@@ -4,7 +4,8 @@
             [ragtime.core :as ragtime]
             [ragtime.datomic :as ragtime-datomic]
             [ragtime.reporter :as reporter]
-            [ragtime.strategy :as strategy]))
+            [ragtime.strategy :as strategy]
+            [datomic.client.api.protocols :as client-protocols]))
 
 (defn- singularize [coll]
   (if (= (count coll) 1) (first coll) coll))
@@ -21,6 +22,7 @@
       :down (logger/log logger :report ::rolling-back id))))
 
 (defn- get-database [{:keys [connection]}]
+  {:pre [(satisfies? client-protocols/Connection connection)]}
   (ragtime-datomic/create-connection connection))
 
 (defn- get-reporter [{:keys [logger]}]

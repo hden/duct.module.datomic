@@ -1,6 +1,7 @@
 (ns duct.database.datomic
   (:require [integrant.core :as ig]
-            [datomic.client.api :as datomic]))
+            [datomic.client.api :as datomic]
+            [datomic.client.api.protocols :as client-protocols]))
 
 (defrecord Boundary [client connection])
 
@@ -9,7 +10,9 @@
 (defn- connect-ensure-database
   "Ensure that a database named db-name exists. Returns a connection."
   [client db-name]
-  (when-not (contains? (into [] (datomic/list-databases client))
+  {:pre [(and (satisfies? client-protocols/Client client)
+              (string? db-name))]}
+  (when-not (contains? (into [] (datomic/list-databases client {}))
                        db-name)
     (datomic/create-database client {:db-name db-name}))
   (datomic/connect client {:db-name db-name}))
