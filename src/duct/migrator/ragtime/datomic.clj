@@ -1,5 +1,7 @@
 (ns duct.migrator.ragtime.datomic
-  (:require [duct.logger :as logger]
+  (:require [clojure.edn :as edn]
+            [duct.core :as core]
+            [duct.logger :as logger]
             [integrant.core :as ig]
             [ragtime.core :as ragtime]
             [ragtime.datomic :as ragtime-datomic]
@@ -7,8 +9,21 @@
             [ragtime.strategy :as strategy]
             [datomic.client.api.protocols :as client-protocols]))
 
+(defprotocol StringSource
+  (get-string [source]))
+
+(extend-protocol StringSource
+  String
+  (get-string [s] s)
+  java.net.URL
+  (get-string [s] (slurp s))
+  duct.core.resource.Resource
+  (get-string [s] (slurp s)))
+
 (defn- singularize [coll]
-  (if (= (count coll) 1) (first coll) coll))
+  (if (= (count coll) 1)
+    (first coll)
+    coll))
 
 (defn- clean-key [base key]
   (if (vector? key)
@@ -42,6 +57,11 @@
 
 (defmethod ig/resume-key :duct.migrator.ragtime/datomic [_ options _ index]
   (migrate index options))
+
+(defmethod ig/init-key ::edn [key {:keys [data] :as options}]
+  (let [id (:id options (clean-key ::edn key))
+        {:keys [tx-data]} (edn/read-string (get-string data))]
+    (ragtime-datomic/create-migration id tx-data)))
 
 (defmethod ig/init-key ::migration [key {:keys [tx-data] :as options}]
   (let [id (:id options (clean-key ::migration key))]
