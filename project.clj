@@ -10,4 +10,4 @@
   :repl-options {:init-ns duct.module.datomic}
   :profiles
   {:dev {:dependencies [[com.gearswithingears/shrubbery "0.4.1"]
-                        [com.datomic/client-cloud "0.8.78"]]}})
+                        [com.datomic/client-cloud "0.8.81"]]}})
