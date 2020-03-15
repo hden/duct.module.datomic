@@ -5,8 +5,6 @@
 
 (defrecord Boundary [client connection])
 
-(def ^:private get-client (memoize datomic/client))
-
 (defn- connect-ensure-database
   "Ensure that a database named db-name exists. Returns a connection."
   [client db-name]
@@ -19,6 +17,6 @@
 
 (defmethod ig/init-key :duct.database/datomic
   [_ {:keys [database] :as options}]
-  (let [client (get-client (dissoc options :database))
+  (let [client (datomic/client (dissoc options :database))
         connection (when database (connect-ensure-database client database))]
     (->Boundary client connection)))
