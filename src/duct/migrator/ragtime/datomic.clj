@@ -49,7 +49,7 @@
   (let [db (get-database database)
         rep (get-reporter options)]
     (ragtime/migrate-all db index migrations {:reporter rep
-                                              :strategy strategy/raise-error})
+                                              :strategy strategy/ignore-future})
     (ragtime/into-index index migrations)))
 
 (defmethod ig/init-key :duct.migrator.ragtime/datomic [_ options]
