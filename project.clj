@@ -6,7 +6,7 @@
   :dependencies [[org.clojure/clojure "1.10.1"]
                  [duct/core "0.8.0"]
                  [duct/logger "0.3.0"]
-                 [ragtime.datomic "0.1.0-SNAPSHOT"]]
+                 [ragtime.datomic "0.1.0"]]
   :repl-options {:init-ns duct.module.datomic}
   :profiles
   {:dev {:dependencies [[com.gearswithingears/shrubbery "0.4.1"]
