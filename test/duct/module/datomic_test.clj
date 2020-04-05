@@ -17,7 +17,12 @@
             :duct.migrator.ragtime/datomic
             {:database   (ig/ref :duct.database/datomic)
              :logger     (ig/ref :duct/logger)
-             :migrations []}}
+             :migrations []}
+
+            :duct.logger.timbre/cast {}
+            :duct.logger/timbre
+            {:appenders
+             {:duct.logger.timbre/cast (ig/ref :duct.logger.timbre/cast)}}}
            (core/build-config base-config))))
 
   (testing "config with existing data"
