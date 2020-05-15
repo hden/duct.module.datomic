@@ -3,7 +3,7 @@
   :url "https://github.com/hden/duct.module.datomic"
   :license {:name "EPL-2.0"
             :url "https://www.eclipse.org/legal/epl-2.0/"}
-  :managed-dependencies [[com.datomic/client-cloud "0.8.91"]]
+  :managed-dependencies [[com.datomic/client-cloud "0.8.96"]]
   :dependencies [[org.clojure/clojure "1.10.1"]
                  [com.datomic/client-cloud]
                  [duct/core "0.8.0"]
