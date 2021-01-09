@@ -2,13 +2,15 @@
   (:require [datomic.ion.cast :as cast]
             [integrant.core :as ig]))
 
-(defn- logger-fn [{:keys [output_ ?err error-level? context]}]
-  (when error-level?
-    (let [output (force output_)
-          data (cond-> {:msg output}
-                 ?err (assoc :ex ?err)
-                 context (assoc ::context context))]
-      (cast/alert data))))
+(defn- logger-fn [{:keys [level output_ ?err error-level? context]}]
+  (let [output (force output_)
+        data (cond-> {:msg output
+                      ::level level}
+               ?err (assoc :ex ?err)
+               context (assoc ::context context))]
+    (if error-level?
+      (cast/alert data)
+      (cast/event data))))
 
 (defmethod ig/init-key :duct.logger.timbre/cast [_ options]
   (merge {:enabled?   true
