@@ -1,4 +1,4 @@
-(defproject hden/duct.module.datomic "0.1.0-SNAPSHOT"
+(defproject hden/duct.module.datomic "0.2.0-SNAPSHOT"
   :description "A Duct module that adds Integrant keys for a Datomic database connection and Ragtime migrations to a configuration."
   :url "https://github.com/hden/duct.module.datomic"
   :license {:name "EPL-2.0"
