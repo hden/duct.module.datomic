@@ -1,7 +1,6 @@
 (ns duct.module.datomic
   (:require [duct.core :as core]
-            [integrant.core :as ig]
-            [duct.core.merge :as merge]))
+            [integrant.core :as ig]))
 
 (defn- get-environment [config options]
   (:environment options (:duct.core/environment config :production)))
