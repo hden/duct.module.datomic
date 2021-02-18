@@ -1,3 +1,4 @@
 {:duct.database/datomic [:duct/database]
+ :duct.logger/cast [:duct/logger]
  :duct.migrator.ragtime/datomic [:duct/migrator]
  :duct.module/datomic [:duct/module]}
