@@ -1,7 +1,7 @@
 (ns duct.module.datomic-test
-  (:require [clojure.test :refer :all]
+  (:require [clojure.test :refer [deftest testing is]]
             [duct.core :as core]
-            [duct.module.datomic :as module-datomic]
+            [duct.module.datomic]
             [integrant.core :as ig]))
 
 (core/load-hierarchy)

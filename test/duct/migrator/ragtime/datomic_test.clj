@@ -1,5 +1,5 @@
 (ns duct.migrator.ragtime.datomic-test
-  (:require [clojure.test :refer :all]
+  (:require [clojure.test :refer [deftest testing is use-fixtures]]
             [datomic.client.api.protocols :as client-protocols]
             [datomic.client.api.impl :as client-impl]
             [shrubbery.core :as shrubbery]
@@ -36,29 +36,29 @@
 
 (deftest migration-test
   (testing "default migrations attribute"
-    (let [{:keys [db connection client]} (create-mocks)
-          system (ig/init {:duct.migrator.ragtime/datomic
-                           {:database   (database-datomic/->Boundary client connection)
-                            :logger     (->TestLogger logs)
-                            :migrations [(ig/ref ::create-inventory)]}
+    (let [{:keys [connection client]} (create-mocks)]
+      (ig/init {:duct.migrator.ragtime/datomic
+                {:database   (database-datomic/->Boundary client connection)
+                 :logger     (->TestLogger logs)
+                 :migrations [(ig/ref ::create-inventory)]}
 
-                           [:duct.migrator.ragtime.datomic/migration ::create-inventory]
-                           {:tx-data [{:db/ident :inv/sku
-                                       :db/valueType :db.type/string
-                                       :db/unique :db.unique/identity
-                                       :db/cardinality :db.cardinality/one}]}})]
+                [::migrator/migration ::create-inventory]
+                {:tx-data [{:db/ident :inv/sku
+                            :db/valueType :db.type/string
+                            :db/unique :db.unique/identity
+                            :db/cardinality :db.cardinality/one}]}})
       (is (shrubbery/received? connection client-protocols/transact))
       (is (= @logs
-             [[:duct.migrator.ragtime.datomic/applying ::create-inventory]])))))
+             [[::migrator/applying ::create-inventory]])))))
 
 (deftest change-and-resume-test
-  (let [{:keys [db connection client]} (create-mocks)
+  (let [{:keys [connection client]} (create-mocks)
         config {:duct.migrator.ragtime/datomic
                 {:database   (database-datomic/->Boundary client connection)
                  :logger     (->TestLogger logs)
                  :migrations [(ig/ref ::create-inventory)]}
 
-                [:duct.migrator.ragtime.datomic/migration ::create-inventory]
+                [::migrator/migration ::create-inventory]
                 {:tx-data [{:db/ident :inv/sku
                             :db/valueType :db.type/string
                             :db/unique :db.unique/identity
@@ -68,12 +68,12 @@
                                  [:duct.migrator.ragtime/datomic :migrations]
                                  [(ig/ref ::create-inventory)
                                   (ig/ref ::create-inventory2)])
-                       [:duct.migrator.ragtime.datomic/migration ::create-inventory2]
+                       [::migrator/migration ::create-inventory2]
                        {:tx-data [{:db/ident :inv/color
                                    :db/valueType :db.type/keyword
-                                   :db/cardinality :db.cardinality/one}]})
-        system' (ig/resume config' system)]
+                                   :db/cardinality :db.cardinality/one}]})]
+   (ig/resume config' system)
    (is (shrubbery/received? connection client-protocols/transact))
    (is (= (into #{} @logs)
-          #{[:duct.migrator.ragtime.datomic/applying ::create-inventory]
-            [:duct.migrator.ragtime.datomic/applying ::create-inventory2]}))))
+          #{[::migrator/applying ::create-inventory]
+            [::migrator/applying ::create-inventory2]}))))
