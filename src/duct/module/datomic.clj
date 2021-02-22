@@ -7,7 +7,7 @@
     (core/merge-configs
      config
      {:duct.database/datomic options
-      :duct.logger/cast options
+      :duct.logger/cast (select-keys options [:redirect])
       :duct.migrator.ragtime/datomic
       ^:demote {:database   (ig/ref :duct.database/datomic)
                 :logger     (ig/ref :duct/logger)

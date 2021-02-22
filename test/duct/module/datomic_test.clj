@@ -19,10 +19,7 @@
              :logger     (ig/ref :duct/logger)
              :migrations []}
 
-            :duct.logger.timbre/cast {}
-            :duct.logger/timbre
-            {:appenders
-             {:duct.logger.timbre/cast (ig/ref :duct.logger.timbre/cast)}}}
+            :duct.logger/cast {}}
            (core/build-config base-config))))
 
   (testing "config with existing data"
