@@ -4,12 +4,15 @@
             [uritemplate-clj.core :as templ]))
 
 (def get-params
-  (memoize (fn
-             ([s] (get-params s {}))
-             ([s m]
-              (let [vars {:app-name (get (ion/get-app-info) :app-name)
-                          :env      (get (ion/get-env) :env)}]
-                (ion/get-params {:path (templ/uritemplate s (merge vars m))}))))))
+  (memoize (fn [{:keys [template variables default]
+                 :or {variables {}
+                      default {}}}]
+             (let [vars {:app-name (get (ion/get-app-info) :app-name)
+                         :env      (get (ion/get-env) :env)}
+                   params (ion/get-params {:path (templ/uritemplate template (merge vars variables))})]
+               (if (= {} params)
+                 default
+                 params)))))
 
-(defmethod ig/init-key ::get-params [_ {:keys [template variables]}]
-  (get-params template (or variables {})))
+(defmethod ig/init-key ::get-params [_ opts]
+  (get-params opts))
