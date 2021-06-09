@@ -6,17 +6,16 @@
 
 (def get-params
   (memoize (fn [{:keys [template variables default logger]
-                 :or {variables {}
-                      default {}}}]
+                 :or {template  "/datomic-shared{/env}{/app-name}/"
+                      variables {}
+                      default   {}}}]
              (try
                (let [vars {:app-name (get (ion/get-app-info) :app-name)
                            :env      (when-let [env (get (ion/get-env) :env)]
                                        (name env))}
                      params (ion/get-params {:path (templ/uritemplate template (merge vars variables))})]
                  ;; `ion/get-params` returns an empty map when the path does not exist.
-                 (if (empty? params)
-                   default
-                   params))
+                 (merge default params))
                ;; Replace errors with default value
                (catch Throwable ex
                  (when logger
@@ -25,3 +24,7 @@
 
 (defmethod ig/init-key ::get-params [_ opts]
   (get-params opts))
+
+(defmethod ig/init-key ::get-param [_ {:as opts :keys [key default]}]
+  (let [m (get-params (select-keys opts [:template :variables :logger]))]
+    (get m key default)))

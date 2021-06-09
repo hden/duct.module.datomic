@@ -21,11 +21,12 @@ To add this module to your configuration, add the :duct.module/sql key to your c
                       :database    "datomic-docs-tutorial"}
 
 ;; Read configurations from the AWS SSM
+;; Assumes that parameters are stored under `/datomic-shared/(env)/(app-name)/`
 ;; See https://docs.datomic.com/cloud/ions/ions-reference.html#parameters-example
-[:duct.reader.ion/get-params :my-app.params/my-param]
-{:template "/datomic-shared{/env}{/app-name}/my-param"
- :logger   #ig/ref :duct/logger
- :default  "foobar"}
+[:duct.reader.ion/get-param :my-app.params/my-param]
+{:key      "my-param"
+ :default  "foobar"
+ :logger   #ig/ref :duct/logger}
 ```
 
 ### dev-local
