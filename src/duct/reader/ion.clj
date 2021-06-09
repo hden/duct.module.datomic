@@ -10,10 +10,11 @@
                       default {}}}]
              (try
                (let [vars {:app-name (get (ion/get-app-info) :app-name)
-                           :env      (get (ion/get-env) :env)}
+                           :env      (when-let [env (get (ion/get-env) :env)]
+                                       (name env))}
                      params (ion/get-params {:path (templ/uritemplate template (merge vars variables))})]
                  ;; `ion/get-params` returns an empty map when the path does not exist.
-                 (if (= {} params)
+                 (if (empty? params)
                    default
                    params))
                ;; Replace errors with default value
