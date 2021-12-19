@@ -10,7 +10,7 @@
                  [duct/logger "0.3.0"]
                  [hden/duct.database.datomic "0.2.0"]
                  [ragtime.datomic "0.2.0"]
-                 [uritemplate-clj "1.3.0"]]
+                 [uritemplate-clj "1.3.1"]]
   :repl-options {:init-ns duct.module.datomic}
   :profiles
   {:dev {:dependencies [[com.gearswithingears/shrubbery "0.4.1"]]}})
