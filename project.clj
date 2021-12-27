@@ -9,7 +9,7 @@
                  [duct/core "0.8.0"]
                  [duct/logger "0.3.0"]
                  [hden/duct.database.datomic "0.2.0"]
-                 [ragtime.datomic "0.2.0"]
+                 [ragtime.datomic "0.3.0"]
                  [uritemplate-clj "1.3.1"]]
   :repl-options {:init-ns duct.module.datomic}
   :profiles
