@@ -1,6 +1,7 @@
 (ns duct.migrator.ragtime.datomic
   (:require [clojure.edn :as edn]
             [duct.logger :as logger]
+            [duct.core.resource]
             [integrant.core :as ig]
             [ragtime.core :as ragtime]
             [ragtime.datomic :as ragtime-datomic]
