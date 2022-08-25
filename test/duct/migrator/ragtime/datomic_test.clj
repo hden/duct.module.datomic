@@ -38,7 +38,7 @@
   (testing "default migrations attribute"
     (let [{:keys [connection client]} (create-mocks)]
       (ig/init {:duct.migrator.ragtime/datomic
-                {:database   (database-datomic/->Boundary client connection)
+                {:database   (database-datomic/map->Boundary {:client client :connection connection})
                  :logger     (->TestLogger logs)
                  :migrations [(ig/ref ::create-inventory)]}
 
@@ -54,7 +54,7 @@
 (deftest change-and-resume-test
   (let [{:keys [connection client]} (create-mocks)
         config {:duct.migrator.ragtime/datomic
-                {:database   (database-datomic/->Boundary client connection)
+                {:database   (database-datomic/map->Boundary {:client client :connection connection})
                  :logger     (->TestLogger logs)
                  :migrations [(ig/ref ::create-inventory)]}
 
