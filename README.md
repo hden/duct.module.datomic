@@ -6,7 +6,7 @@ A Duct module that adds Integrant keys for a Datomic database connection and Rag
 
 To install, add the following to your project `:dependencies`:
 
-`[hden/duct.module.datomic "0.5.4"]`
+`[hden/duct.module.datomic "0.5.7"]`
 
 ## Usage
 
