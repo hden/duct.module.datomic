@@ -6,7 +6,7 @@
   :managed-dependencies [[com.datomic/client-cloud "1.0.124"]]
   :dependencies [[org.clojure/clojure "1.11.1"]
                  [com.datomic/client-cloud]
-                 [duct/core "0.8.0"]
+                 [duct/core "0.8.1"]
                  [duct/logger "0.3.0"]
                  [hden/duct.database.datomic "0.3.1"]
                  [ragtime.datomic "0.3.0"]
