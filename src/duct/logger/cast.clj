@@ -16,7 +16,7 @@
              ::ns-str ns-str
              ::file   file
              ::line   line
-             ::id     id}]
+             ::id     @id}]
       (cond
         (instance? Throwable event)
         (f (merge m {:msg "Throwable" :ex event}))
