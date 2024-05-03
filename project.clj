@@ -4,7 +4,7 @@
   :license {:name "EPL-2.0"
             :url "https://www.eclipse.org/legal/epl-2.0/"}
   :managed-dependencies [[com.datomic/client-cloud "1.0.125"]]
-  :dependencies [[org.clojure/clojure "1.11.2"]
+  :dependencies [[org.clojure/clojure "1.11.3"]
                  [com.datomic/client-cloud]
                  [duct/core "0.8.1"]
                  [duct/logger "0.3.0"]
